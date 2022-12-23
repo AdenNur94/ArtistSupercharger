@@ -1,0 +1,50 @@
+﻿@page "/artist"
+@using ArtistSupercharger.Shared
+@using System.ComponentModel.DataAnnotations;
+@inject HttpClient Http
+
+<h3>Sök Artist</h3>
+@if (artistEditContext == null)
+{
+    <p><em>Loading...</em></p>
+}
+<EditForm Model="artistEditContext" OnValidSubmit="GetArtist">
+    <InputText class="input-group-text" id="ArtistName" @bind-Value="artistEditContext.ArtistName" /> <button class="btn btn-info" type="submit">Search</button>
+</EditForm>
+
+@if (artist != null)
+{
+   <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="@artist.ImageUrl" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">@artist.Name</h5>
+            
+            <p class="card-text">Popularity: @artist.Popularity</p>
+            <p class="card-text">Artist ID: @artist.ArtistID</p>
+            <p class="card-text">Followers: @artist.Followers</p>
+            <ul style="list-style-type: square; margin: 20px; padding: 10px">
+            @foreach (var genre in artist.Genres)
+            {
+                    <li>@genre</li>                
+            }
+            </ul>
+        </div>
+    </div>
+}
+
+@code {
+    ArtistSupercharger.Shared.Artist artist;
+    private ArtistEditContext artistEditContext = new ArtistEditContext();
+
+    public class ArtistEditContext
+    {
+        public string ArtistName { get; set; } = "";
+    }
+
+    private async Task GetArtist()
+    {
+        HttpClient Http = new HttpClient();
+        string baseUrl = "https://localhost:7242/";
+        artist = await Http.GetFromJsonAsync<ArtistSupercharger.Shared.Artist>($"{baseUrl}artist?artistname=" + artistEditContext.ArtistName);
+    }
+}
