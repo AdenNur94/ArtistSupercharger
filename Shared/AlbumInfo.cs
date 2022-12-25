@@ -19,6 +19,7 @@ namespace ArtistSupercharger.Shared
         public Cover cover { get; set; }
         public int year { get; set; }
         public int track_count { get; set; }
+        public string label { get; set; }
         public List<Disc> discs { get; set; }
     }
 

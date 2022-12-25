@@ -3,34 +3,127 @@
 @using System.ComponentModel.DataAnnotations;
 @inject HttpClient Http
 
-<h3>Sök Artist</h3>
 @if (artistEditContext == null)
 {
     <p><em>Loading...</em></p>
 }
-<EditForm Model="artistEditContext" OnValidSubmit="GetArtist">
-    <InputText class="input-group-text" id="ArtistName" @bind-Value="artistEditContext.ArtistName" /> <button class="btn btn-info" type="submit">Search</button>
+
+<EditForm style="text-align: center;" Model="artistEditContext" OnValidSubmit="GetArtist">
+   <div class="searchbar" style="display: flex; justify-content: center;">
+  <InputText class="input-group-text" id="ArtistName" @bind-Value="artistEditContext.ArtistName" />
+        <button class="btn btn-dark" type="submit">Search</button>
+    </div>
 </EditForm>
 
 @if (artist != null)
 {
-   <div class="card" style="width: 18rem;">
+    <div class="container col-md-2">
+    <div class="artistcard">
+        <img src="@artist.ImageUrl" alt="Artist" class="card__image">
+        <p class="artistcard_name">@artist.Name</p>
+    <div class="grid-container">
+
+                @if (artist.Popularity < 50)
+                {
+                    <div style="color:red" class="grid-child-posts">
+                        @artist.Popularity Popularity
+                    </div>
+                }
+                else if (artist.Popularity > 50 && artist.Popularity < 60)
+                {
+                    <div style="color:yellow" class="grid-child-posts">
+                        @artist.Popularity Popularity
+                    </div>
+                }
+                else
+                {
+                    <div style="color:green" class="grid-child-posts">
+                        @artist.Popularity Popularity
+                    </div>
+                }
+
+      <div class="grid-child-followers">
+      @(string.Format("{0:#,0}", artist.Followers)) Followers
+      </div>
+
+                
+    </div>
+            @foreach (var genre in artist.Genres)
+            {
+                <label style="font-size: 20px;" class="badge">@genre</label>
+            }
+  </div>
+  </div>
+
+    @*<div class="card maindiv col-md-3" style="width: 18rem;">
         <img class="card-img-top" src="@artist.ImageUrl" alt="Card image cap">
         <div class="card-body">
             <h5 class="card-title">@artist.Name</h5>
-            
+
             <p class="card-text">Popularity: @artist.Popularity</p>
-            <p class="card-text">Artist ID: @artist.ArtistID</p>
             <p class="card-text">Followers: @artist.Followers</p>
-            <ul style="list-style-type: square; margin: 20px; padding: 10px">
-            @foreach (var genre in artist.Genres)
-            {
-                    <li>@genre</li>                
-            }
+            <p> genres: </p>
+            <ul>
+                @foreach (var genre in artist.Genres)
+                {
+                    <li>@genre</li>
+                }
             </ul>
         </div>
-    </div>
+    </div>*@
+
+    @if (artist.Albums.Count > 1)
+    {
+        var artistAblum = artist.Albums.First();
+        var albumTracks = artist.AlbumTracks;
+        <div class="container col-md-2">
+        <div class="albumcard">
+            <img src="@artistAblum.Images.First().url" alt="Album cover" class="albumcard__image">
+            <div class="albuminfo">
+            <h5 class="albumcard__name">@artistAblum.Name</h5>
+            <p>Total Tracks: @artistAblum.TotalTracks</p>
+            <p>Release Date: @artistAblum.ReleaseDate</p>
+            <p>Label: @artistAblum.Label</p>
+            </div>
+            <div>
+            @foreach (var track in albumTracks)
+            {
+                <ul>
+                    <li>
+                        <span class="track-number">@track.number.</span>
+                        <span class="track-name">@track.name</span>
+                        <span class="track-duration">
+                            @(track.duration / 60000) min
+                        </span>
+                    </li>
+
+                    @if (@track.playcount > 4000000 & @track.playcount < 8000000)
+                    {
+                        <li style="background-color:goldenrod"> @(string.Format("{0:#,0}", track.playcount)) Streams GULD</li>
+                    }
+                    else if (@track.playcount > 8000000)
+                    {
+                        <li style="background-color:darkgray"> @(string.Format("{0:#,0}", track.playcount)) Streams Platinum</li>
+                    }
+                    else
+                    {
+                        <li> @(string.Format("{0:#,0}", track.playcount)) Streams</li>
+                    }
+                    <li>Popularity: @track.popularity</li>
+                </ul>
+            }
+                </div>
+        </div>
+        </div>
+    }
+    else
+    {
+        <p style="text-align:center; font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">This artist has no albums</p>
+    }
 }
+
+
+
 
 @code {
     ArtistSupercharger.Shared.Artist artist;

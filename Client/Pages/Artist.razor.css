@@ -1,4 +1,4 @@
-﻿div {
+﻿.maindiv {
    border: 1px solid #ccc;
    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
    border-radius: 3px;
@@ -10,3 +10,139 @@
 .card-text {
     font-family: 'Open Sans', sans-serif;
 }
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin: auto;
+    text-align: left;
+}
+
+    .card img {
+        height: 258px;
+        width: 100%;
+    }
+
+    .card h5 {
+        font-size: 1.5rem;
+        margin: 10px 0;
+    }
+
+    .card p {
+        font-size: 1rem;
+        margin: 5px 0;
+    }
+
+    .card ul {
+        list-style:none;
+        padding: 0;
+    }
+
+    .card li {
+        font-size: 0.9rem;
+        margin: 5px 0;
+    }
+
+    .card ul {
+        background-color: transparent; /* sets the background color to pink */
+        border: 1px solid transparent; /* adds a 1px solid black border */
+        color: black;
+        box-shadow: 5px 5px 8px 0 rgba(0, 0, 0, 0.2), -5px -5px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+
+   .track-number {
+        font-weight: bold;
+    }
+
+    .card .track-name {
+        font-style: italic;
+        font-weight: bold;
+    }
+
+    .card .track-duration {
+        float: right;
+    }
+
+
+.searchbar {
+    padding-top: 20px; /* adds 20px of padding above the element */
+    padding-bottom: 20px; /* adds 20px of padding below the element */
+}
+
+
+
+
+.searchbar {
+    padding-top: 20px; /* adds 20px of padding above the element */
+    padding-bottom: 20px; /* adds 20px of padding below the element */
+}
+
+.artistcard {
+    background-color: #222831;
+    height: 37rem;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.7);
+    color: white;
+}
+
+.albumcard {
+    background-color: #222831;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding-bottom: 20px
+}
+.artistcard_name {
+    margin-top: 15px;
+    font-size: 1.5em;
+}
+
+.container {
+    padding-bottom: 5px
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    font-size: 1.2em;
+    padding-bottom: 20px
+}
+
+.card__image {
+    height: 160px;
+    width: 160px;
+    border-radius: 50%;
+    border: 5px solid #272133;
+    margin-top: 20px;
+    box-shadow: 0 10px 50px rgba(235, 25, 110, 1);
+}
+
+.albumcard__image {
+    height: 240px;
+    width: 240px;
+    border: 5px solid #272133;
+    margin-top: 20px;
+    box-shadow: 0 10px 50px rgba(235, 25, 110, 1);
+}
+
+.albumcard__name {
+    margin-top: 15px;
+    font-size: 1.5em;
+}
+
+.albumcard ul {
+    list-style: none;
+    text-align: left;
+    border:5px white;
+}
+
+.albuminfo {
+    text-align: center;
+}
+

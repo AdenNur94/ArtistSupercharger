@@ -77,7 +77,7 @@ namespace ArtistSupercharger.Server.Controllers
                             Images = album.images,
                             Name = album.name,
                             ReleaseDate = album.release_date,
-                            ReleaseDatePrecision = album.release_date_precision,
+                            ReleaseDatePrecision = album.release_date_precision
                         });
                     }
                 }
@@ -85,25 +85,37 @@ namespace ArtistSupercharger.Server.Controllers
                 client.DefaultRequestHeaders.Add("Accept", "*/*");
                 client.DefaultRequestHeaders.Authorization = null;
                 client.DefaultRequestHeaders.Add("User-Agent", "Other");
-                var albumId = artist.Albums.FirstOrDefault().Id;
-                var url = "https://api.t4ils.dev/albumPlayCount?albumid=" + albumId;
-                response = await client.GetAsync(url);
 
-                responseBody = await response.Content.ReadAsStringAsync();
-                var albumInfo = JsonConvert.DeserializeObject<AlbumInfo>(responseBody);
-                var albumTracks = albumInfo.data;
-                artist.AlbumTracks = new List<Track>();
-                var albumLength = artist.Albums.FirstOrDefault().TotalTracks;
-                for (int i = 0; i < albumLength; i++)
+                if (artist.Albums.Count > 1)
                 {
-                    foreach (var track in albumTracks.discs)
+                    var albumId = artist.Albums.First().Id;
+
+                    var albumInfoUrl = $"https://api.t4ils.dev/albumPlayCount?albumid={albumId}";
+
+                    response = await client.GetAsync(albumInfoUrl);
+
+                    responseBody = await response.Content.ReadAsStringAsync();
+                    var albumInfo = JsonConvert.DeserializeObject<AlbumInfo>(responseBody);
+                    var albumTracks = albumInfo.data;
+                    artist.AlbumTracks = new List<Track>();
+                    var albumLength = artist.Albums.First().TotalTracks;
+                    for (int i = 0; i < albumLength; i++)
                     {
-                        artist.AlbumTracks.Add(track.tracks[i]);
+                        foreach (var track in albumTracks.discs)
+                        {
+                           // track.tracks[i].duration = (track.tracks[i].duration / 60000);
+                            artist.AlbumTracks.Add(track.tracks[i]);
+                        }
                     }
+
+                    
+                    if (!string.IsNullOrEmpty(albumInfo.data.label))
+                    {
+                        artist.Albums.First().Label = albumInfo.data.label;
+                    }
+
+                    return artist;
                 }
-
-
-
                 return artist;
             }
             else
@@ -124,7 +136,6 @@ namespace ArtistSupercharger.Server.Controllers
             var encode_clientid_clientsecret = Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Format("{0}:{1}", clientid, clientsecret)));
 
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url5);
-
             webRequest.Method = "POST";
             webRequest.ContentType = "application/x-www-form-urlencoded";
             webRequest.Accept = "application/json";

@@ -18,5 +18,6 @@ namespace ArtistSupercharger.Shared
         public int TotalTracks { get; set; }
         public string Type { get; set; }
         public string Uri { get; set; }
+        public string Label { get; set; } 
     }
 }
