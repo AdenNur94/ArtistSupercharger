@@ -110,7 +110,11 @@
                         <li> @(string.Format("{0:#,0}", track.playcount)) Streams</li>
                     }
                     <li>Popularity: @track.popularity</li>
-                </ul>
+                    @foreach(var featuredArtist in track.artists)
+                            {
+                                <li>@featuredArtist.name</li>
+                            }
+                   </ul>
             }
                 </div>
         </div>
@@ -126,7 +130,7 @@
 
 
 @code {
-    ArtistSupercharger.Shared.Artist artist;
+    SuperChargerArtist artist;
     private ArtistEditContext artistEditContext = new ArtistEditContext();
 
     public class ArtistEditContext
@@ -138,6 +142,6 @@
     {
         HttpClient Http = new HttpClient();
         string baseUrl = "https://localhost:7242/";
-        artist = await Http.GetFromJsonAsync<ArtistSupercharger.Shared.Artist>($"{baseUrl}artist?artistname=" + artistEditContext.ArtistName);
+        artist = await Http.GetFromJsonAsync<SuperChargerArtist>($"{baseUrl}artist?artistname=" + artistEditContext.ArtistName);
     }
 }

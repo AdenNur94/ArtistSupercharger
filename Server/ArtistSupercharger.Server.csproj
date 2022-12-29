@@ -22,6 +22,8 @@
     <ProjectReference Include="..\Client\ArtistSupercharger.Client.csproj" />
     <ProjectReference Include="..\Shared\ArtistSupercharger.Shared.csproj" />
   </ItemGroup>
-
+	<PropertyGroup>
+		<BlazorLinkOnBuild>false</BlazorLinkOnBuild>
+	</PropertyGroup>
 
 </Project>

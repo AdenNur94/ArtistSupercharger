@@ -1,0 +1,71 @@
+﻿@page "/playlists"
+@using ArtistSupercharger.Shared
+
+
+
+<Select Placeholder="Välj spellista" @onchange="GetPlaylist">
+    <option Value="37i9dQZEVXbLoATJ81JYXz"> Top 50</option>
+    <option Value="37i9dQZF1DWXfgo3OOonqa"> 100 </option>
+    <option Value="37i9dQZF1DX0SCimY7Xzdc"> SweDrill </option>
+    <option Value="37i9dQZF1DX5cpU86I7OAy"> Svensk Rap </option>
+</Select>
+
+@if (playlists != null)
+{
+    var placement = 1;
+    <p>@playlists.Description</p>
+    <img src="@playlists.ImageUrl">
+    <p>@playlists.Name</p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Track</th>
+                <th>Artist</th>
+                <th>Popularity</th>
+                <th>Release Date</th>
+                <th>Duration</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var track in playlists.PlaylistTracks.items)
+            {
+                TimeSpan durationTimeSpan = TimeSpan.FromMilliseconds(@track.track.duration_ms);
+
+                var durationInMinutes = $"{(int)durationTimeSpan.TotalMinutes}:{durationTimeSpan.Seconds:00}";
+
+                <tr>
+                    <td>@(placement++)</td>
+                    <td>@track.track.name</td>
+                    <td>@track.track.artists[0].name</td>
+                    <td>@track.track.popularity</td>
+                    <td>@track.track.album.release_date</td>
+                    <td>@durationInMinutes min</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<p></p>
+@code {
+    Playlist playlists;
+
+    private string selectedValue;
+
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    await GetPlaylist();
+    //}
+
+    private async Task GetPlaylist(ChangeEventArgs e)
+    {
+        selectedValue = e.Value.ToString();
+        HttpClient Http = new HttpClient();
+        string baseUrl = "https://localhost:7242/";
+        playlists = await Http.GetFromJsonAsync<Playlist>($"{baseUrl}Playlists?playlistID=" + selectedValue);
+
+        StateHasChanged();
+    }
+}

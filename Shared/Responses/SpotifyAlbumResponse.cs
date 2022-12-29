@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArtistSupercharger.Shared
+namespace ArtistSupercharger.Shared.Responses
 {
-    public class SpotifyAlbumResponse   {
+    public class SpotifyAlbumResponse : SpotifyBase
+    {
         public string Href { get; set; }
         public List<Item> Items { get; set; }
         public int Limit { get; set; }

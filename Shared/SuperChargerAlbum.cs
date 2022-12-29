@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ArtistSupercharger.Shared.Responses;
 
 namespace ArtistSupercharger.Shared
 {
-    public class Album
+    public class SuperChargerAlbum
     {
         public ExternalUrls ExternalUrls { get; set; }
         public string Href { get; set; }

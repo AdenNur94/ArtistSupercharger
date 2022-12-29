@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArtistSupercharger.Shared
 {
-    public class Artist
+    public class SuperChargerArtist
     {
         public string Name { get; set; }
         public List<string> Genres { get; set; }
@@ -15,7 +15,7 @@ namespace ArtistSupercharger.Shared
         public int Followers { get; set; }
         public string ImageUrl { get; set; }
 
-        public List<Album> Albums { get; set; }
+        public List<SuperChargerAlbum> Albums { get; set; }
         public List<Track> AlbumTracks { get; set; }
     }
 }

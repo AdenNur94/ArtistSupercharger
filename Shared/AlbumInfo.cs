@@ -35,17 +35,4 @@ namespace ArtistSupercharger.Shared
         public List<Track> tracks { get; set; }
     }
 
-    public class Track
-    {
-        public string uri { get; set; }
-        public int playcount { get; set; }
-        public string name { get; set; }
-        public int popularity { get; set; }
-        public int number { get; set; }
-        public int duration { get; set; }
-        public bool explicitContent { get; set; }
-        public bool playable { get; set; }
-        public List<Artist> artists { get; set; }
-    }
-
 }
